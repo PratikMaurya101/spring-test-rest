@@ -5,8 +5,9 @@ import com.orangotan.springtestrest.entity.Course;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CourseServiceImpl implements CourseService {
 
@@ -27,18 +28,17 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public List<Course> getCourses() {
         //return list to the controller
-        return courseDao.findAll();
+        return (List<Course>) courseDao.findAll();
     }
 
     @Override
-    public Course getCourse(long courseId) {
+    public Optional<Course> getCourse(long courseId) {
 //        Course c = null;
 //        for(Course course:list){
 //            if(course.getId()==courseId)
 //                c = course;break;
 //        }
-        Course toFetch = courseDao.getReferenceById(courseId);
-        return courseDao.getReferenceById(toFetch.getId());
+        return courseDao.findById(courseId);
     }
 
     @Override
@@ -81,8 +81,7 @@ public class CourseServiceImpl implements CourseService {
 //                System.out.println("No such Course as courseId:"+course.getId());break;
 //            }
 //        }
-        Course entityToDelete = courseDao.getReferenceById(courseId);
-        courseDao.delete(entityToDelete);
+        courseDao.deleteById(courseId);
         return null;
     }
 }

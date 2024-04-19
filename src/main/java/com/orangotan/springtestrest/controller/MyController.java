@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class MyController {
@@ -29,7 +30,7 @@ public class MyController {
 
     //fetches course by id
     @GetMapping("/courses/{courseId}")
-    public Course getCourse(@PathVariable String courseId){
+    public Optional<Course> getCourse(@PathVariable("courseId") String courseId){
         long id = Long.parseLong(courseId);
         return this.courseService.getCourse(id);
     }
@@ -46,7 +47,7 @@ public class MyController {
     }
 
     @DeleteMapping("/courses/{courseId}")
-    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable String courseId){
+    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable("courseId") String courseId){
         try{
             this.courseService.deleteCourse(Long.parseLong(courseId));
             return new ResponseEntity<>(HttpStatus.OK);
